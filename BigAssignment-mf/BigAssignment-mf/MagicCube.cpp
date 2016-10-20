@@ -1,5 +1,5 @@
-#include "MagicCube.h"
 #include <cstdio>
+#include "MagicCube.h"
 const int _new[Block_Count] = { 1,2,3,8,0,4,7,6,5};
 const int _old[Block_Count * 2] = { 4,0,1,2,5,8,7,6,3,0,1,2,5,8,7,6,3 };
 const int mod4[9] = { 0,1,2,3,4,1,2,3,4 };
@@ -199,7 +199,7 @@ void MagicCube::output(const int face)
 	puts("---");
 }
 
-bool MagicCube::check_certain_level(int level)
+bool MagicCube::check_certain_level(const int level)
 {
 	for (int i = 1; i < 5; ++i)
 		for (int j = 9 - level * 3; j < 12 - level * 3; ++j)

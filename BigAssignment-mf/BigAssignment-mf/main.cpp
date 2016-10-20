@@ -7,35 +7,18 @@ using namespace std;
 
 MagicCube a, b;
 
-void simulation()
+void simulation()//读入操作并模拟
 {
-	//char   buffer[500];
-	//_getcwd(buffer, 500);
-	//printf("directory   is:   %s ", buffer);
-	int t1, t2; 
+	int t1, t2;
 	while (cin >> t1 >> t2)
 	{
 		a.rotate(t1, t2);
-		a.output();
 	}
+	a.output();
 }
 
-void check_rotate()
+void check_rotate()//debug旋转
 {
-	for (int i = 0; i < Face_Count; ++i)
-	{
-		for (int j = 0; j < 2; ++j) a.rotate(i, 0);
-		cout << a.check_entire_cube() << endl;
-		for (int j = 0; j < 2; ++j) a.rotate(i, 1);
-		cout << a.check_entire_cube() << endl;
-	}
-}
-
-void work()
-{
-	//simulation();
-	//cout << a.face_solve(0) << a.first_level_solve() << a.second_level_solve() << a.up_face_solve() << a.cube_solve();
-	//check_rotate();
 	b.set_different_number();
 	for (int i = 0; i < Face_Count; ++i)
 	{
@@ -51,13 +34,17 @@ void work()
 	}
 }
 
+void work()
+{
+
+}
+
 int main()
 {
 	freopen("mf.in", "r", stdin);
 	freopen("mf.out", "w", stdout);
 
 	work();
-
-	system("pause");
+	
 	return 0;
 }
