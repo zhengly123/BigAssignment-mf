@@ -12,9 +12,12 @@ void simulation()//读入操作并模拟
 	int t1, t2;
 	while (cin >> t1 >> t2)
 	{
+		//b = a;
 		a.rotate(t1, t2);
+		//a.output_compare(b, 1);
 	}
-	a.output();
+	a.output_detailed();
+	//a.output_compare(b);
 }
 
 void check_rotate()//debug旋转
@@ -36,7 +39,7 @@ void check_rotate()//debug旋转
 
 void work()
 {
-
+	simulation();
 }
 
 int main()
