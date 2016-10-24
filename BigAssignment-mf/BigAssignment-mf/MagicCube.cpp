@@ -13,6 +13,12 @@ inline void swap(int& a, int &b)
 	b = a, a = t;
 }
 
+inline void MagicCube::exchange(const int f1, const int b1, const int f2, const int b2)
+{
+	swap(color[f1][b1], color[f2][b2]);
+	swap(num[f1][b1], num[f2][b2]);
+}
+
 inline void MagicCube::set_inv(int face)//
 {
 	involved_face[0] = involved_face[2] = -INF;
@@ -46,7 +52,10 @@ MagicCube::MagicCube()
 {
 	for (int i = 0; i < Face_Count; ++i)
 		for (int j = 0; j < Block_Count; ++j)
+		{
 			color[i][j] = i;
+			num[i][j] = j;
+		}
 }
 
 MagicCube::~MagicCube()
@@ -62,10 +71,10 @@ void MagicCube::set_different_number()
 	//output();
 }
 
-void MagicCube::output_check(const MagicCube& base, int hide)
+void MagicCube::output_compare(const MagicCube& base, int hide)
 {
 	puts("-----------分割线-----------");
-	int num = 0;
+	int cnt = 0;
 	for (int i = 0; i < Face_Count; ++i)
 	{
 		printf("---Face %d\n", i);
@@ -75,14 +84,14 @@ void MagicCube::output_check(const MagicCube& base, int hide)
 				printf((k == 2) ? "%3d\t" : "%3d", base.color[i][j * 3 + k]);
 			for (int k = 0; k < 3; ++k)
 			{
-				if (!hide|| base.color[i][j * 3 + k] != color[i][j * 3 + k])
-					printf((k == 2) ? "%3d\n" : "%3d", color[i][j * 3 + k]);
-				else printf((k == 2) ? "  _\n" : "  _");
-				num += (base.color[i][j * 3 + k] == color[i][j * 3 + k]);
+				if (!hide || base.color[i][j * 3 + k] != color[i][j * 3 + k] || base.num[i][j * 3 + k] != num[i][j * 3 + k])
+					printf((k == 2) ? "%3d,%d\n" : "%3d,%d", color[i][j * 3 + k], num[i][j * 3 + k]);
+				else printf((k == 2) ? "    _\n" : "    _");
+				cnt += (base.color[i][j * 3 + k] == color[i][j * 3 + k]);
 			}
 		}
 	}
-	printf(num == 54 ? "-----------SAME-----------\n" : "-----------%dCHANGED--------\n", 54 - num);
+	printf(cnt == 54 ? "-----------SAME-----------\n" : "-----------%dCHANGED--------\n", 54 - cnt);
 	//printf("%d", num);
 	//if (num != 34) puts("ERR");
 }
@@ -110,13 +119,21 @@ bool MagicCube::accuracy_check()
 void MagicCube::rotate(const int face, const int dir)
 {
 	printf("%d %d\n", face, dir);//debug
-	int tmp[9] = {}, k = (dir) ? 6 : 2, t;
+	int tmp[9] = {}, tmp2[9] = {}, k = (dir) ? 6 : 2, t;
 
 	for (int i = 0; i < Block_Count; ++i)
 		if (i != 4)
+		{
 			tmp[_old[_new[i] + k]] = color[face][i];
+			tmp2[_old[_new[i] + k]] = num[face][i];
+		}
 	tmp[4] = color[face][4];
-	for (int i = 0; i < Block_Count; ++i) color[face][i] = tmp[i];
+	tmp2[4] = num[face][4];
+	for (int i = 0; i < Block_Count; ++i)
+	{
+		color[face][i] = tmp[i];
+		num[face][i] = tmp2[i];
+	}
 
 	if (face == 0 || face == 5)
 	{
@@ -124,13 +141,17 @@ void MagicCube::rotate(const int face, const int dir)
 		k = ((dir == 0) ^ (face == 0)) ? 3 : 1;//底面顶面旋转相反
 		st = (face == 0) ? 6 : 0, ed = (face == 0) ? 9 : 3;
 		for (int i = 1; mod4[i + k] != 1; i = mod4[i + k])
-			for (int j = st; j < ed; ++j) swap(color[i][j], color[mod4[i + k]][j]);
+			for (int j = st; j < ed; ++j) exchange(i, j, mod4[i + k], j);
 	}
-	else//chekc start from here
+	else
 	{
 		k = (dir) ? 1 : -1;
 		set_inv(face);
-		for (int i = 0; i < 3; ++i) tmp[i] = color[involved_face[0]][involved_block[0][i]];
+		for (int i = 0; i < 3; ++i)
+		{
+			tmp[i] = color[involved_face[0]][involved_block[0][i]];
+			tmp2[i] = num[involved_face[0]][involved_block[0][i]];
+		}
 		for (int i = 0; ; i = t)
 		{
 			t = i + k;
@@ -142,10 +163,16 @@ void MagicCube::rotate(const int face, const int dir)
 			}
 			if (t < 0) t += 4;
 			for (int j = 0; j < 3; ++j)
+			{
 				color[involved_face[i]][involved_block[i][j]] = color[involved_face[t]][involved_block[t][j]];
+				num[involved_face[i]][involved_block[i][j]] = num[involved_face[t]][involved_block[t][j]];
+			}
 		}
 		for (int j = 0; j < 3; ++j)
+		{
 			color[involved_face[t]][involved_block[t][j]] = tmp[j];
+			num[involved_face[t]][involved_block[t][j]] = tmp2[j];
+		}
 	}
 }
 
@@ -195,6 +222,19 @@ void MagicCube::output(const int face)
 		printf("---Face %d\n", i);
 		for (int j = 0; j < Block_Count; ++j)
 			printf((j % 3 == 2) ? "%3d\n" : "%3d", color[i][j]);
+	}
+	puts("---");
+}
+
+void MagicCube::output_detailed(const int face)
+{
+	puts("-----------分割线-----------");
+	for (int i = 0; i < Face_Count; ++i)
+	{
+		if (face < Face_Count&&face != i) continue;
+		printf("---Face %d\n", i);
+		for (int j = 0; j < Block_Count; ++j)
+			printf((j % 3 == 2) ? "%3d,%d\n" : "%3d,%d", color[i][j], num[i][j]);
 	}
 	puts("---");
 }
