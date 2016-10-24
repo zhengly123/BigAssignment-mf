@@ -39,7 +39,9 @@ void check_rotate()//debugÐý×ª
 
 void work()
 {
-	simulation();
+	//simulation();
+	pii c = a.query(0, 5);
+	printf("%d,%d", c.first, c.second);
 }
 
 int main()
@@ -48,6 +50,5 @@ int main()
 	freopen("mf.out", "w", stdout);
 
 	work();
-	
 	return 0;
 }
