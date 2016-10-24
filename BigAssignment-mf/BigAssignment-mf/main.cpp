@@ -36,15 +36,15 @@ void check_rotate()//debugĞı×ª
 
 void work()
 {
-
+	a.output();
 }
 
 int main()
 {
-	freopen("mf.in", "r", stdin);
-	freopen("mf.out", "w", stdout);
+	//freopen("mf.in", "r", stdin);
+	//freopen("mf.out", "w", stdout);
 
 	work();
-	
+	getchar(); getchar();
 	return 0;
 }

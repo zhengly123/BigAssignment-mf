@@ -13,6 +13,12 @@ inline void swap(int& a, int &b)
 	b = a, a = t;
 }
 
+inline void swap(Block& a, Block &b)
+{
+	Block t = b;
+	b = a, a = t;
+}
+
 inline void MagicCube::set_inv(int face)//
 {
 	involved_face[0] = involved_face[2] = -INF;
@@ -46,7 +52,7 @@ MagicCube::MagicCube()
 {
 	for (int i = 0; i < Face_Count; ++i)
 		for (int j = 0; j < Block_Count; ++j)
-			color[i][j] = i;
+			color[i][j].color = i, color[i][j].num = j;
 }
 
 MagicCube::~MagicCube()
@@ -58,7 +64,7 @@ void MagicCube::set_different_number()
 	int cnt = 0;
 	for (int i = 0; i < Face_Count; ++i)
 		for (int j = 0; j < Block_Count; ++j)
-			color[i][j] = ++cnt;
+			color[i][j].color = ++cnt;
 	//output();
 }
 
@@ -110,7 +116,8 @@ bool MagicCube::accuracy_check()
 void MagicCube::rotate(const int face, const int dir)
 {
 	printf("%d %d\n", face, dir);//debug
-	int tmp[9] = {}, k = (dir) ? 6 : 2, t;
+	int k = (dir) ? 6 : 2, t;
+	Block tmp[9];
 
 	for (int i = 0; i < Block_Count; ++i)
 		if (i != 4)
@@ -194,7 +201,7 @@ void MagicCube::output(const int face)
 		if (face < Face_Count&&face != i) continue;
 		printf("---Face %d\n", i);
 		for (int j = 0; j < Block_Count; ++j)
-			printf((j % 3 == 2) ? "%3d\n" : "%3d", color[i][j]);
+			printf((j % 3 == 2) ? "%3d,%d\n" : "%3d,%d", color[i][j], color[i][j].num);
 	}
 	puts("---");
 }

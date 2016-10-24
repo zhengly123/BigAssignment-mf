@@ -2,6 +2,22 @@
 #ifndef MagicCube_h
 #define MagicCube_h
 
+class Block
+{
+public:
+	int color, num;
+	Block();
+	Block(int _color, int _num);
+	~Block();
+	//	friend bool operator==(const Block& a, const Block& b);
+	//	friend bool operator!=(const Block& a, const Block& b);
+	operator int() const
+	{
+		return color;
+	}
+private:
+};
+
 const int Face_Count = 6;
 const int Block_Count = 9;
 /*
@@ -10,7 +26,7 @@ const int Block_Count = 9;
 class MagicCube
 {
 public:
-	int color[Face_Count][Block_Count];
+	Block color[Face_Count][Block_Count];
 	MagicCube();
 	~MagicCube();
 	//debug part
