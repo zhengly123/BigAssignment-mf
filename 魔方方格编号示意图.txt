@@ -1,4 +1,4 @@
-The identifier of blocks
+【The identifier of blocks】
        0 1 2
        3 4 5
        6 7 8
@@ -8,7 +8,7 @@ The identifier of blocks
        0 1 2
        3 4 5
        6 7 8
-The identifier of faces
+【The identifier of faces】
  U    5
 LFRB 2143
  D    0
@@ -18,3 +18,7 @@ LFRB 2143
   黄
 红绿橙蓝
   白
+
+【The identifier of rotation】
+数字表示的旋转：旋转的面的编号 旋转的方向
+其中 0 表示顺时针旋转，1 表示逆时针旋转
