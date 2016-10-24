@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <iostream>
 #include "MagicCube.h"
 const int _new[Block_Count] = { 1,2,3,8,0,4,7,6,5};
 const int _old[Block_Count * 2] = { 4,0,1,2,5,8,7,6,3,0,1,2,5,8,7,6,3 };
@@ -174,6 +175,17 @@ void MagicCube::rotate(const int face, const int dir)
 			num[involved_face[t]][involved_block[t][j]] = tmp2[j];
 		}
 	}
+}
+
+pii MagicCube::query(int _color, int _num)
+{
+	for (int i = 0; i<Face_Count; ++i)
+		for (int j = 0; j < Block_Count; ++j)
+		{
+			if (color[i][j] == _color&&num[i][j] == _num) return std::make_pair(i, j);
+		}
+	std::cerr << "ERROR MagicCube::query";
+	return std::make_pair(-1, -1);
 }
 
 bool MagicCube::check_face(const int face)
