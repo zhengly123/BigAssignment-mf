@@ -117,9 +117,11 @@ bool MagicCube::accuracy_check()
 /// </summary>
 /// <param name="face">操作的面的编号</param>
 /// <param name="dir">旋转的方向，0为顺时针(默认)，否则为逆时针</param>
-void MagicCube::rotate(const int face, const int dir)
+/// <param name="output">是否输出操作，-1为默认，1为输出，0为不输出</param>
+void MagicCube::rotate(const int face, const int dir, const int output)
 {
-	printf("%d %d\n", face, dir);//debug
+	if ((output == -1 && main == 1) || (output == 1))
+		printf("%d %d\n", face, dir != 0);//输出操作
 	int tmp[9] = {}, tmp2[9] = {}, k = (dir) ? 6 : 2, t;
 
 	for (int i = 0; i < Block_Count; ++i)

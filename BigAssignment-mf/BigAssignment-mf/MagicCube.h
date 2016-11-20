@@ -5,7 +5,7 @@
 #include<vector>
 const int Face_Count = 6;
 const int Block_Count = 9;
-typedef int Arr[Face_Count][Block_Count];
+typedef int Arr[Face_Count][Block_Count];//用于储存6个面的信息数据类型
 typedef std::pair<int, int> pii;
 /*
 魔方的六个面，0D，1F，2L，3B，4R，5U。每个面中心块的颜色编号即为面的编号。
@@ -13,14 +13,16 @@ typedef std::pair<int, int> pii;
 class MagicCube
 {
 public:
-	Arr color, num;
+	Arr color, num;//color储存某一块的颜色，num储存某一块的初始面内编号
+	bool main = 1;//标记是否为主魔方，缺省值为1（表示是主魔方）；若不为主魔方，rotate默认不输出操作
 	MagicCube();
 	~MagicCube();
 	//debug part
 	void set_different_number();
 	bool accuracy_check();//判断是否可能存在
 	//operation part
-	void rotate(const int face, const int dir = 0);//旋转
+	//旋转 dir缺省值0代表顺时针，1逆时针 output缺省值-1默认 1输出操作，0不输出操作
+	void rotate(const int face, const int dir = 0, const int output = -1);
 	void randomize(int step = 200);//随机旋转若干次
 	//query part
 	pii query(int _color, int _num);
