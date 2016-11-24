@@ -8,10 +8,10 @@ inline int ran(const int mod)
 	return rand() % mod;
 }
 
-void MagicCube::randomize(int step)
+void MagicCube::randomize(int step, int output)
 {
 	for (int i = 0; i < step; ++i)
 	{
-		rotate(ran(6), ran(2));
+		rotate(ran(6), ran(2), output);
 	}
 }
