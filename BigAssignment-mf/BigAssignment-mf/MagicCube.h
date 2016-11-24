@@ -15,6 +15,7 @@ class MagicCube
 public:
 	Arr color, num;//color储存某一块的颜色，num储存某一块的初始面内编号
 	bool main = 1;//标记是否为主魔方，缺省值为1（表示是主魔方）；若不为主魔方，rotate默认不输出操作
+	int rot = 0;//魔方朝向被旋转的次数（顺时针）
 	MagicCube();
 	~MagicCube();
 	//debug part
@@ -23,7 +24,8 @@ public:
 	//operation part
 	//旋转 dir缺省值0代表顺时针，1逆时针 output缺省值-1默认 1输出操作，0不输出操作
 	void rotate(const int face, const int dir = 0, const int output = -1);
-	void randomize(int step = 200);//随机旋转若干次
+	void rotate_direction(int dir = 1, int output = 0);//正数为顺时针旋转面的个数，负数为逆时针（从上往下看）
+	void randomize(int step = 200, int output = 0);//随机旋转若干次
 	//query part
 	pii query(int _color, int _num);
 	//check part
@@ -38,6 +40,8 @@ public:
 	void output_compare(const MagicCube & base, int hide = 1);//对比两个魔方的差异
 private:
 	void exchange(const int f1, const int b1, const int f2, const int b2);//交换两个块
+	void rotate_direction_one();
+	void rotate_direction_change_color();
 	void set_inv(int face);//设置rotate时相邻的面和块信息
 	bool check_certain_level(const int level);
 };

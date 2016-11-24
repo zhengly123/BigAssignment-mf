@@ -20,6 +20,41 @@ inline void MagicCube::exchange(const int f1, const int b1, const int f2, const 
 	swap(num[f1][b1], num[f2][b2]);
 }
 
+void MagicCube::rotate_direction_one()
+{
+	int a[6], b[6];
+	//0,5面（底层，顶层）的旋转
+	rotate(5, 0, 0);
+	rotate(0, 1, 0);
+	//中间层旋转
+	for (int i = 3; i < 6; ++i) a[i] = color[4][i], b[i] = num[4][i];
+	for (int i = 4; i > 1; --i)
+		for (int j = 3; j < 6; ++j)
+			color[i][j] = color[i - 1][j], num[i][j] = num[i - 1][j];
+	for (int i = 3; i < 6; ++i)  color[1][i] = a[i], num[1][i] = b[i];
+	//颜色置换
+	//output_detailed();//check
+	//accuracy_check();//check
+	rotate_direction_change_color();
+	//增加旋转次数
+	rot = (rot + 1) % 4;
+	//output_detailed();//check
+	//accuracy_check();//check
+}
+
+void MagicCube::rotate_direction_change_color()
+{
+	int cc[6] = { 0,2,3,4,1,5 };
+	int cn0[9] = { 6,3,0,7,4,1,8,5,2 }, cn5[9] = { 2,5,8,1,4,7,0,3,6 };
+	for (int i = 0; i < Face_Count; ++i)
+		for (int j = 0; j < Block_Count; ++j)
+		{
+			color[i][j] = cc[color[i][j]];
+			if (color[i][j] == 0) num[i][j] = cn0[num[i][j]];
+			if (color[i][j] == 5) num[i][j] = cn5[num[i][j]];
+		}
+}
+
 inline void MagicCube::set_inv(int face)//
 {
 	involved_face[0] = involved_face[2] = -INF;
@@ -99,15 +134,16 @@ void MagicCube::output_compare(const MagicCube& base, int hide)
 
 bool MagicCube::accuracy_check()
 {
-	bool used[Block_Count*Face_Count + 1] = {}, accr = 1;
+	bool used[Face_Count][Block_Count] = {};
 	for (int i = 0; i < Face_Count; ++i)
 		for (int j = 0; j < Block_Count; ++j)
 		{
-			if (color[i][j] > Block_Count*Face_Count || color[i][j] <= 0)
+			if (used[color[i][j]][num[i][j]])
+			{
+				throw 1;
 				return false;
-			if (used[color[i][j]])
-				return false;
-			used[color[i][j]] = 1;
+			}
+			used[color[i][j]][num[i][j]] = 1;
 		}
 	return true;
 }
@@ -179,6 +215,17 @@ void MagicCube::rotate(const int face, const int dir, const int output)
 	}
 }
 
+void MagicCube::rotate_direction(int dir, int output)
+{
+	dir = (dir % 4 + 4) % 4;
+	for (int i = 0; i < dir; ++i)
+	{
+		rotate_direction_one();
+		if (output == 1 || (output == 0 && main == 1)) puts("ROT");
+	}
+	
+}
+
 pii MagicCube::query(int _color, int _num)
 {
 	for (int i = 0; i<Face_Count; ++i)
@@ -186,6 +233,7 @@ pii MagicCube::query(int _color, int _num)
 		{
 			if (color[i][j] == _color&&num[i][j] == _num) return std::make_pair(i, j);
 		}
+	throw "query";
 	std::cerr << "ERROR MagicCube::query";
 	return std::make_pair(-1, -1);
 }
