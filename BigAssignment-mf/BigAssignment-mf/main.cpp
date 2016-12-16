@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <direct.h>
+#include <ctime>
 #include "MagicCube.h"
 using namespace std;
 typedef pair<int, int> pii;
@@ -40,8 +41,8 @@ void check_rotate()//debug旋转
 void work()
 {
 	//simulation();
-	pii c = a.query(0, 5);
-	printf("%d,%d", c.first, c.second);
+	a.output_detailed();
+	
 }
 //rel记录四周面的相邻两个面，rel[0]是面的前驱，[1]是面的后继
 const int rel[2][6] = { { -1,4,1,2,3,-1, },{ -1, 2, 3, 4, 1, -1 } };
@@ -153,20 +154,47 @@ void solve_second_level()
 	}
 }
 
-void solve()
+void solve()//recover the magiccube(only first level)
 {
 	solve_bottom_cross();
 	solve_first_level();
 	a.output();
 }
 
+void input()//input a magiccube(represent by chars(color))
+{
+	char in[6][20];
+	for (int i = 0; i < 6; ++i) scanf("%s", in[i]);
+	a.input(in);
+	//a.output_detailed();
+	//a.output_compare(b);//check
+}
+
+void ran_and_check()//debug code
+{
+	srand(time(0));
+	auto fout = freopen("mf.in", "w", stdout);
+	b.randomize();
+	b.output_standard_format();
+	fclose(fout);
+	freopen("mf.in", "r", stdin);
+	freopen("mf.out", "w", stdout);
+	input();
+	if (!b.accuracy_check()) throw runtime_error("Not accurate!");//check
+}
+
 int main()
 {
-	//freopen("mf.in", "r", stdin);
-	//freopen("mf.out", "w", stdout);
-	a.randomize();
+	freopen("mf.in", "r", stdin);
+	freopen("mf.out", "w", stdout);
+	//input();
+	//work();
+	//b.output_standard_format();
+	//b.randomize(200, 1);
+	//ran_and_check();
+	/*a.randomize();
 	solve();
 	puts("GET TO GETCHAR()");
-	getchar(); getchar();
+	getchar(); getchar();*/
 	return 0;
 }
