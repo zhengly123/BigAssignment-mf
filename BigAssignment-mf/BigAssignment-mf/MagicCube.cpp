@@ -7,7 +7,7 @@ const int mod4[9] = { 0,1,2,3,4,1,2,3,4 };
 const int INF = 999999999;
 int involved_face[4] = { -INF,5,-INF,0 };
 int involved_block[4][3] = { { 8,5,2 },{},{ 0,3,6 },{} };//顺时针
-
+std::vector<cornerblock> MagicCube::standard;
 inline void swap(int& a, int &b)
 {
 	int t = b;
@@ -84,6 +84,15 @@ inline void MagicCube::set_inv(int face)//
 	}
 }
 
+void MagicCube::print_rotation(int _face, const int direction)
+{
+	const char map[6] = { 'D','F','L','B','R','U' };
+	if (_face != 0 && _face != 5) _face = ((_face - 1 - rot) % 4 + 4) % 4 + 1;
+	putchar(map[_face]);
+	if (direction) putchar('i');
+	puts("");
+}
+
 MagicCube::MagicCube()
 {
 	for (int i = 0; i < Face_Count; ++i)
@@ -92,6 +101,13 @@ MagicCube::MagicCube()
 			color[i][j] = i;
 			num[i][j] = j;
 		}
+	if (standard.size() > 0) return;
+	for (int i = 0; i < 9; i+=2)
+	{
+		if (i == 4) continue;
+		standard.push_back(get_current_cornerblock(0, i));
+		standard.push_back(get_current_cornerblock(5, i));
+	}
 }
 
 MagicCube::~MagicCube()
@@ -132,6 +148,17 @@ void MagicCube::output_compare(const MagicCube& base, int hide)
 	//if (num != 34) puts("ERR");
 }
 
+void MagicCube::output_standard_format()
+{
+	const int map[6] = { 1,3,4,2,5,0 };
+	const char mapc[7] = "YGOBRW";
+	for (int i = 0; i < 6; ++i)
+	{
+		for (int j = 0; j < 9; ++j) putchar(mapc[color[map[i]][j]]);
+		puts("");
+	}
+}
+
 bool MagicCube::accuracy_check()
 {
 	bool used[Face_Count][Block_Count] = {};
@@ -157,7 +184,7 @@ bool MagicCube::accuracy_check()
 void MagicCube::rotate(const int face, const int dir, const int output)
 {
 	if ((output == -1 && main == 1) || (output == 1))
-		printf("%d %d\n", face, dir != 0);//输出操作
+		print_rotation(face, dir);//printf("%d %d\n", face, dir != 0);//输出操作
 	int tmp[9] = {}, tmp2[9] = {}, k = (dir) ? 6 : 2, t;
 
 	for (int i = 0; i < Block_Count; ++i)

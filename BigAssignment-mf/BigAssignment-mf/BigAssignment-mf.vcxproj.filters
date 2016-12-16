@@ -24,10 +24,26 @@
     <ClCompile Include="Randomize.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MagicCube.h">
       <Filter>头文件</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mf.in">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="mf.out">
+      <Filter>资源文件</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\魔方方格编号示意图.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>

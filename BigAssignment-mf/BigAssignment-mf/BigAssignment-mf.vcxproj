@@ -111,12 +111,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="MagicCube.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Randomize.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MagicCube.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mf.in" />
+    <None Include="mf.out" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\魔方方格编号示意图.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
