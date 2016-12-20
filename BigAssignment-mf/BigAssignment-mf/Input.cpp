@@ -102,18 +102,19 @@ void MagicCube::set_number()
 
 void MagicCube::set_color(const char input_data[][20])
 {
-	const int map_face[6] = { 1,3,4,2,5,0 };
-	int map_color[100];//WRGBYO
-	memset(map_color, -1, sizeof(map_color));
+	const int map_face[6] = { 1,3,4,2,5,0 };//the order of input face
+	int map_color_to_face[100] = {};
+	memset(map_color_to_face, -1, sizeof(map_color_to_face));
 	memset(num, 0, sizeof(num));
 	for (int i = 0; i < 6; ++i)
 	{
-		map_color[input_data[i][4]] = map_face[i];
+		map_color_to_face[input_data[i][4]] = map_face[i];
+		map_face_to_color[map_face[i]] = input_data[i][4];
 	}
 	for (int i = 0; i < 6; ++i)
 		for (int j = 0; j < 9; ++j)
 		{
-			color[map_face[i]][j] = map_color[input_data[i][j]];
+			color[map_face[i]][j] = map_color_to_face[input_data[i][j]];
 		}
 	for (int i = 0; i < 6; ++i)//check
 		for (int j = 0; j < 9; ++j)
