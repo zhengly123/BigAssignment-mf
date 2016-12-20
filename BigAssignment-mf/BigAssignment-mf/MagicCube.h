@@ -49,6 +49,7 @@ public:
 	Arr num;//"num" store the number of blocks储存某一块的初始面内编号
 	bool main = 1;//1 refers to main magiccube(will output the rotation),0 refers to non~标记是否为主魔方，缺省值为1（表示是主魔方）；若不为主魔方，rotate默认不输出操作
 	int rot = 0;//the number of position changes(clockwise)魔方朝向被旋转的次数（顺时针）
+	char map_face_to_color[6];//store the color of faces
 	MagicCube();
 	~MagicCube();
 	//debug part

@@ -166,8 +166,9 @@ void input()//input a magiccube(represent by chars(color))
 	char in[6][20];
 	for (int i = 0; i < 6; ++i) scanf("%s", in[i]);
 	a.input(in);
-	//a.output_detailed();
+	//a.output_detailed();//check
 	//a.output_compare(b);//check
+	//a.output_standard_format();//check
 }
 
 void ran_and_check()//debug code
@@ -187,8 +188,8 @@ int main()
 {
 	freopen("mf.in", "r", stdin);
 	freopen("mf.out", "w", stdout);
-	//input();
-	//work();
+	input();
+	solve();
 	//b.output_standard_format();
 	//b.randomize(200, 1);
 	//ran_and_check();

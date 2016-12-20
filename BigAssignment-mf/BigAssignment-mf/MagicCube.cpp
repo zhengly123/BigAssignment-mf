@@ -151,10 +151,9 @@ void MagicCube::output_compare(const MagicCube& base, int hide)
 void MagicCube::output_standard_format()
 {
 	const int map[6] = { 1,3,4,2,5,0 };
-	const char mapc[7] = "YGOBRW";
 	for (int i = 0; i < 6; ++i)
 	{
-		for (int j = 0; j < 9; ++j) putchar(mapc[color[map[i]][j]]);
+		for (int j = 0; j < 9; ++j) putchar(map_face_to_color[color[map[i]][j]]);
 		puts("");
 	}
 }
@@ -248,7 +247,7 @@ void MagicCube::rotate_direction(int dir, int output)
 	for (int i = 0; i < dir; ++i)
 	{
 		rotate_direction_one();
-		if (output == 1 || (output == 0 && main == 1)) puts("ROT");
+		//if (output == 1 || (output == 0 && main == 1)) puts("ROT");
 	}
 	
 }
