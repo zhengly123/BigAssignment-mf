@@ -91,6 +91,8 @@ void MagicCube::print_rotation(int _face, const int direction)
 	putchar(map[_face]);
 	if (direction) putchar('i');
 	puts("");
+	//if (direction) putchar('\'');//check
+	//putchar(',');
 }
 
 MagicCube::MagicCube()
